@@ -91,6 +91,23 @@ public class RelatedNode : Node {
         }
         return counter == lengthPath;
     }
+    public Boolean EqualByOutput(RelatedNode otherNode) {
+        if(otherNode == null)
+            return false;
+        if(nextNodes.Count != otherNode.nextNodes.Count)
+            return false;
+        var nextNodesCurrentNode = GetNextNodes().OrderBy(el => el.Id);
+        var nextNodesOtherNode = otherNode.GetNextNodes().OrderBy(el => el.Id);
+        for(Int32 index = 0; index < nextNodes.Count; index++) {
+            var nextNodeCurrentNode = nextNodesCurrentNode.ElementAt(index);
+            var nextNodeOtherNode = nextNodesOtherNode.ElementAt(index);
+            if(nextNodeCurrentNode.Id != nextNodeOtherNode.Id)
+                return false;
+            if(GetIntersectSymbolsWithNext(nextNodeCurrentNode) != otherNode.GetIntersectSymbolsWithNext(nextNodeOtherNode))
+                return false;
+        }
+        return true;
+    }
 
     private void AddNext(RelatedNode nextNode, Char relatedSymbol) {
         AddNew(nextNodes, nextNode);
