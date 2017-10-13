@@ -1,0 +1,7 @@
+C:\Project\Magistracy\SemesterFirst\TheoryOfProgrammingLanguages\FinalAutomation\FinalAutomation\bin\Debug\FinalAutomation.exe.config
+C:\Project\Magistracy\SemesterFirst\TheoryOfProgrammingLanguages\FinalAutomation\FinalAutomation\bin\Debug\FinalAutomation.exe
+C:\Project\Magistracy\SemesterFirst\TheoryOfProgrammingLanguages\FinalAutomation\FinalAutomation\bin\Debug\FinalAutomation.pdb
+C:\Project\Magistracy\SemesterFirst\TheoryOfProgrammingLanguages\FinalAutomation\FinalAutomation\obj\Debug\FinalAutomation.csprojResolveAssemblyReference.cache
+C:\Project\Magistracy\SemesterFirst\TheoryOfProgrammingLanguages\FinalAutomation\FinalAutomation\obj\Debug\FinalAutomation.csproj.CoreCompileInputs.cache
+C:\Project\Magistracy\SemesterFirst\TheoryOfProgrammingLanguages\FinalAutomation\FinalAutomation\obj\Debug\FinalAutomation.exe
+C:\Project\Magistracy\SemesterFirst\TheoryOfProgrammingLanguages\FinalAutomation\FinalAutomation\obj\Debug\FinalAutomation.pdb
