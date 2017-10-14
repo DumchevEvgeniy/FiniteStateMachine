@@ -19,9 +19,9 @@ public class RelatedNode : Node {
         AddPrevious(previousNode, relatedSymbol);
         previousNode.AddNext(this, relatedSymbol);
     }
-
     public void Merge(RelatedNode mergeNode) {
-
+        MergePreviousNodes(mergeNode);
+        MergeNextNodes(mergeNode);
     }
 
     public List<RelatedNode> GetNextNodes() => new List<RelatedNode>(nextNodes);
@@ -103,7 +103,11 @@ public class RelatedNode : Node {
             var nextNodeOtherNode = nextNodesOtherNode.ElementAt(index);
             if(nextNodeCurrentNode.Id != nextNodeOtherNode.Id)
                 return false;
-            if(GetIntersectSymbolsWithNext(nextNodeCurrentNode) != otherNode.GetIntersectSymbolsWithNext(nextNodeOtherNode))
+            var firstSymbols = GetIntersectSymbolsWithNext(nextNodeCurrentNode);
+            var secondSymbols = otherNode.GetIntersectSymbolsWithNext(nextNodeOtherNode);
+            if(firstSymbols.Count() != secondSymbols.Count())
+                return false;
+            if(firstSymbols.Union(secondSymbols).Count() != firstSymbols.Count())
                 return false;
         }
         return true;
@@ -120,5 +124,23 @@ public class RelatedNode : Node {
     private void AddNew(List<RelatedNode> nodes, RelatedNode node) {
         if(!nodes.Contains(node))
             nodes.Add(node);
+    }
+    private void MergePreviousNodes(RelatedNode mergeNode) {
+        foreach(var node in mergeNode.previousNodes) {
+            var symbols = node.GetIntersectSymbolsWithNext(mergeNode);
+            foreach(var symbol in symbols)
+                node.RelateWithNext(this, symbol);
+            node.nextNodes.Remove(mergeNode);
+        }
+        mergeNode.previousNodes.Clear();
+    }
+    private void MergeNextNodes(RelatedNode mergeNode) {
+        foreach(var node in mergeNode.nextNodes) {
+            var symbols = node.GetIntersectSymbolsWithPrevious(mergeNode);
+            foreach(var symbol in symbols)
+                node.RelateWithPrevious(this, symbol);
+            node.previousNodes.Remove(mergeNode);
+        }
+        mergeNode.nextNodes.Clear();
     }
 }

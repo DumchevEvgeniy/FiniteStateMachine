@@ -5,23 +5,13 @@ using System.Linq;
 public class Tree {
     private RelatedNode startNode;
     private List<RelatedNode> allNodes;
-    private List<String> words;
 
     public Tree() {
-        words = new List<String>();
         allNodes = new List<RelatedNode>();
         startNode = CreateNode();
     }
 
-    public void AddWord(String inputWord) => words.Add(inputWord);
-    public void Build() {
-        SortWords();
-        foreach(var word in words)
-            Extend(word);
-    }
-
-    private void SortWords() => words.Sort();
-    private void Extend(String word) {
+    public void AddBranch(String word) {
         RelatedNode currentNode = startNode;
         foreach(var symbol in word) {
             var nextNode = currentNode.GetRelatedNodeByOutput(symbol);
@@ -32,16 +22,18 @@ public class Tree {
             currentNode = nextNode;
         }
     }
-
-    private void MergePossibleNodes() {
+    public void MergePossibleNodes() {
         Boolean wasMerge = true;
         while(wasMerge) {
             var equalsNodes = FindEqualsNodes();
             wasMerge = !equalsNodes.IsEmpty();
-            for(Int32 index = 1; index < equalsNodes.Count; index++)
+            for(Int32 index = 1; index < equalsNodes.Count; index++) {
                 equalsNodes[0].Merge(equalsNodes[index]);
+                allNodes.Remove(equalsNodes[index]);
+            }
         }
     }
+
     private List<RelatedNode> FindEqualsNodes() {
         var equalsNodes = new List<RelatedNode>();
         for(Int32 indexCurrentNode = 0; indexCurrentNode < allNodes.Count; indexCurrentNode++) {
@@ -62,17 +54,16 @@ public class Tree {
         }
         return equalsNodes;
     }
+    private IEnumerable<RelatedNode> GetStartNodesArriveToEnd(Int32 lengthPath) {
+        foreach(var node in allNodes)
+            if(node.CanMoveToEnd(lengthPath))
+                yield return node;
+    }
 
     private RelatedNode CreateNode() {
         var newNode = new RelatedNode(allNodes.Count);
         allNodes.Add(newNode);
         return newNode;
-    }
-
-    private IEnumerable<RelatedNode> GetStartNodesArriveToEnd(Int32 lengthPath) {
-        foreach(var node in allNodes)
-            if(node.CanMoveToEnd(lengthPath))
-                yield return node;
     }
 
     private Boolean TryRelateWithExistPathToEnd(RelatedNode currentNode, String word) {

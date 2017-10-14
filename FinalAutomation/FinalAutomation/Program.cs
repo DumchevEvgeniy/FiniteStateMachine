@@ -8,8 +8,8 @@ namespace FinalAutomation {
             var tree = new Tree();
             var fileReader = new FileReaderEnumerator(fileName);
             foreach(var inputLine in fileReader)
-                tree.AddWord(inputLine);
-            tree.Build();
+                tree.AddBranch(inputLine);
+            tree.MergePossibleNodes();
             Console.WriteLine(tree.GetCountNodes());
             Console.ReadKey();
         }
